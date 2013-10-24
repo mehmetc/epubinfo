@@ -30,9 +30,13 @@ module EPUBInfo
 
       def path
         @toc_path ||= begin
-          toc_id = spine[0]['toc']
-          toc_ncx = manifest.xpath("item[@id = '#{toc_id}']").first.attr('href')
-          parser.zip_file.entries.map { |p| p.name }.select { |s| s.match(toc_ncx) }.first
+          spine_path = nil
+          if spine && !spine.empty?
+            toc_id = spine[0]['toc']
+            toc_ncx = manifest.xpath("item[@id = '#{toc_id}']").first.attr('href')
+            spine_path = parser.zip_file.entries.map { |p| p.name }.select { |s| s.match(toc_ncx) }.first
+          end
+          spine_path
         end
 
       end
