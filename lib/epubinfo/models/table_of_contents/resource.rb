@@ -45,7 +45,77 @@ class Resource
     end
   end
 
+  def keys
+    @keys ||= self.to_a.map{|r| r[:id]}
+  end
+
+  def types
+    @types ||= self.to_a.map{|r| r[:type]}.uniq
+
+  end
+
+  def spine
+    @spine ||=
+    begin
+      spine_resources = @table_of_contents.spine.first.xpath('./itemref').map { |s| s['idref'] }
+      self.to_a.select {|r| spine_resources.include?(r[:id])}
+    end
+  end
+
+  def images
+    @images ||= self.to_a.select {|r| r[:type] =~ /image/}
+  end
+
+  def videos
+    @videos ||= self.to_a.select {|r| r[:type] =~ /video/}
+  end
+
+  def fonts
+    @fonts ||= self.to_a.select {|r| r[:type] =~ /font/}
+  end
+
+  def javascripts
+    @js ||= self.to_a.select {|r| r[:type] =~ /text\/javascript/}
+  end
+
+  def css
+    @css ||= self.to_a.select {|r| r[:type] =~ /text\/css/}
+  end
+
   def to_a
+    @resources ||=
+        begin
+          resources = []
+          @table_of_contents.manifest.xpath('//item').each do |resource|
+            if resource
+              id = resource.attr('id')
+              uri = resource.attr('href')
+              mime_type = resource.attr('media-type')
+              label = ''
+              uri_ref = ''
+              order = ''
+
+              nav_point = @table_of_contents.document.xpath("//navPoint[starts-with(content/@src,'#{uri}')]").first
+              if nav_point
+                label = nav_point.at('navLabel text').content || ''
+                uri_ref = nav_point.at('content').attr('src') || ''
+                order = nav_point.attr('playOrder') || ''
+              end
+
+              resources << {:id => id,
+                            :uri => @table_of_contents.parser.zip_file.entries.map { |p| p.name }.select { |s| s.match(uri) }.first,
+                            :uri_ref => uri_ref,
+                            :text => label,
+                            :type => mime_type,
+                            :order => order}
+            end
+          end
+
+          resources
+        end
+  end
+
+  def to_aa
     @resources ||=
         begin
           resources = []
