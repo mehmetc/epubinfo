@@ -1,3 +1,5 @@
+require 'uri'
+
 class Resource
   include Enumerable
 
@@ -89,7 +91,7 @@ class Resource
           @table_of_contents.manifest.xpath('//item').each do |resource|
             if resource
               id = resource.attr('id')
-              uri = resource.attr('href')
+              uri = URI.decode(resource.attr('href'))
               mime_type = resource.attr('media-type')
               label = ''
               uri_ref = ''
@@ -111,38 +113,6 @@ class Resource
             end
           end
 
-          resources
-        end
-  end
-
-  def to_aa
-    @resources ||=
-        begin
-          resources = []
-          @table_of_contents.spine.first.xpath('./itemref').map { |s| s['idref'] }.each do |item_ref|
-            resource = @table_of_contents.manifest.css("##{item_ref}").first
-            if resource
-              uri = resource.attr('href')
-              mime_type = resource.attr('media-type')
-              label = ''
-              uri_ref = ''
-              order = ''
-
-              nav_point = @table_of_contents.document.xpath("//navPoint[starts-with(content/@src,'#{uri}')]").first
-              if nav_point
-                label = nav_point.at('navLabel text').content || ''
-                uri_ref = nav_point.at('content').attr('src') || ''
-                order = nav_point.attr('playOrder') || ''
-              end
-
-              resources << {:id => item_ref,
-                            :uri => @table_of_contents.parser.zip_file.entries.map { |p| p.name }.select { |s| s.match(uri) }.first,
-                            :uri_ref => uri_ref,
-                            :text => label,
-                            :type => mime_type,
-                            :order => order}
-            end
-          end
           resources
         end
   end

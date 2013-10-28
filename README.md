@@ -10,7 +10,24 @@ EPUBInfo.get('path/to/epub/file.epub')
 
 Which returns a `EPUBInfo::Models::Book` instance, please refer to the [API documentation](http://rubydoc.info/gems/epubinfo/frames) from here on
 
+## Asking for a resource
+ ```ruby
+require 'epubinfo'
+
+book = EPUBInfo.get('path/to/epub/file.epub')
+spine = book.table_of_contents.resources.to_a
+# By URI
+page 1 = Nokogiri::HTML(book.table_of_contents.resources['page1.html'])
+# By id
+page 2 = Nokogiri::HTML(book.table_of_contents.resources['page2'])
+page 3 = Nokogiri::HTML(book.table_of_contents.resources[:page3])
+ ```
+
 ## Changelog
+
+**0.4.4** *October 24,2013*
+
+* added table of contents
 
 **0.4.3** *September 12, 2013*
 

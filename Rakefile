@@ -14,7 +14,7 @@ require 'rake'
 require 'jeweler'
 Jeweler::Tasks.new do |gem|
   # gem is a Gem::Specification... see http://docs.rubygems.org/read/chapter/20 for more options
-  gem.name = "epubinfo"
+  gem.name = "epubinfo_with_toc"
   gem.homepage = "http://github.com/chdorner/epubinfo"
   gem.license = "MIT"
   gem.summary = %Q{Extracts metadata information from EPUB files}
