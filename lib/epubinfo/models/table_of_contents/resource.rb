@@ -104,6 +104,7 @@ class Resource
                 order = nav_point.attr('playOrder') || ''
               end
 
+              #TODO:make this an OpenStruct
               resources << {:id => id,
                             :uri => @table_of_contents.parser.zip_file.entries.map { |p| p.name }.select { |s| s.match(uri) }.first,
                             :uri_ref => uri_ref,

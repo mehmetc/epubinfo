@@ -1,27 +1,74 @@
-# epubinfo [![Continuous Integration](https://secure.travis-ci.org/chdorner/epubinfo.png?branch=master)](http://travis-ci.org/chdorner/epubinfo)
+# epubinfo [![Continuous Integration](https://travis-ci.org/mehmetc/epubinfo.png?branch=table_of_contents)](http://travis-ci.org/mehmetc/epubinfo)
 Extracts metadata information from EPUB files. Supports EPUB2 and EPUB3 formats.
+
+This is a fork of epubinfo written by [![Christof Dorner](https://github.com/chdorner/epubinfo)].
+With this version you can query the Table Of Contents of an EPUB.
+
+Until this branch gets merged into the master you can install it by
+
+```
+gem install epubinfo_with_toc
+```
+
+or in your Gemfile
+
+```
+gem 'epubinfo_with_toc'
+```
 
 ## Usage
 
 ```ruby
 require 'epubinfo'
-EPUBInfo.get('path/to/epub/file.epub')
+book = EPUBInfo.get('path/to/epub/file.epub')
 ```
 
 Which returns a `EPUBInfo::Models::Book` instance, please refer to the [API documentation](http://rubydoc.info/gems/epubinfo/frames) from here on
 
-## Asking for a resource
- ```ruby
-require 'epubinfo'
+## Resources
 
-book = EPUBInfo.get('path/to/epub/file.epub')
-spine = book.table_of_contents.resources.to_a
-# By URI
+### Querying all resource
+ ```ruby
+all_resources = book.table_of_contents.resources.to_a
+```
+
+### Querying by URI
+```ruby
 page 1 = Nokogiri::HTML(book.table_of_contents.resources['page1.html'])
-# By id
+```
+
+### Querying by id
+```ruby
 page 2 = Nokogiri::HTML(book.table_of_contents.resources['page2'])
 page 3 = Nokogiri::HTML(book.table_of_contents.resources[:page3])
- ```
+```
+
+### Querying for a range
+```ruby
+pages1_4 = book.table_of_contents.resources[0..3]
+```
+
+### Querying for a list of specific resources
+```ruby
+images = book.table_of_contents.images
+fonts  = book.table_of_contents.fonts
+videos = book.table_of_contents.videos
+js     = book.table_of_contents.javascripts
+css    = book.table_of_contents.css
+```
+
+### Get a list of all the different mime-types used
+```ruby
+types = book.table_of_contents.types
+```
+
+### print SPINE text
+```ruby
+resources = {}
+book.table_of_contents.resources.spine.each do |resource|
+    puts resource[:text]
+end
+```
 
 ## Changelog
 
