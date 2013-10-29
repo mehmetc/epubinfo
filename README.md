@@ -50,16 +50,16 @@ pages1_4 = book.table_of_contents.resources[0..3]
 
 ### Querying for a list of specific resources
 ```ruby
-images = book.table_of_contents.images
-fonts  = book.table_of_contents.fonts
-videos = book.table_of_contents.videos
-js     = book.table_of_contents.javascripts
-css    = book.table_of_contents.css
+images = book.table_of_contents.resources.images
+fonts  = book.table_of_contents.resources.fonts
+videos = book.table_of_contents.resources.videos
+js     = book.table_of_contents.resources.javascripts
+css    = book.table_of_contents.resources.css
 ```
 
 ### Get a list of all the different mime-types used
 ```ruby
-types = book.table_of_contents.types
+types = book.table_of_contents.resources.types
 ```
 
 ### print SPINE text
