@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Christof Dorner", "Mehmet Celik"]
-  s.date = "2013-10-28"
+  s.date = "2013-10-29"
   s.description = "Supports EPUB2 and EPUB3 formats."
   s.email = "christof@chdorner.com"
   s.extra_rdoc_files = [
@@ -30,7 +30,7 @@ Gem::Specification.new do |s|
     "lib/epubinfo/parser.rb",
     "lib/epubinfo/utils.rb"
   ]
-  s.homepage = "http://github.com/mehmetc/epubinfo"
+  s.homepage = "https://github.com/mehmetc/epubinfo/tree/table_of_contents"
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
   s.rubygems_version = "2.1.10"
