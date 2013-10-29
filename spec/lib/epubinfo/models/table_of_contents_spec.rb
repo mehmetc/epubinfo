@@ -23,9 +23,19 @@ describe EPUBInfo::Models::TableOfContents do
 
       it "should return the parsed TOC as a list or resources" do
         subject.resources.should be_kind_of Resource
-        subject.resources.count.should == 1
+        subject.resources.count.should == 4
+        subject.resources.spine.count.should == 1
+        subject.resources.images.count.should == 1
+        subject.resources.fonts.count.should == 0
+        subject.resources.videos.count.should == 0
+        subject.resources.types.should be_kind_of Array
+        subject.resources.types.count.should == 4
+        subject.resources.types.select {|i| i =~ /image/}.first.should eql('image/png')
         subject.resources.first[:text].should.eql?('Section 1')
+        subject.resources[0..1].should be_kind_of Array
+        subject.resources[0..1].map{|m| m[:uri]}.should == ["chapter-1.xhtml", "cover-image.png"]
       end
+
     end
 
     context "EPUB3" do
@@ -49,8 +59,17 @@ describe EPUBInfo::Models::TableOfContents do
 
       it "should return the parsed TOC as a list or resources" do
         subject.resources.should be_kind_of Resource
-        subject.resources.count.should == 1
+        subject.resources.count.should == 6
+        subject.resources.spine.count.should == 1
+        subject.resources.images.count.should == 1
+        subject.resources.fonts.count.should == 0
+        subject.resources.videos.count.should == 0
+        subject.resources.types.should be_kind_of Array
+        subject.resources.types.count.should == 4
+        subject.resources.types.select {|i| i =~ /image\/jpeg/}.first.should eql('image/jpeg')
         subject.resources.first[:text].should.eql?('Section 1')
+        subject.resources[0..1].should be_kind_of Array
+        subject.resources[0..1].map{|m| m[:uri]}.should == ["EPUB/wasteland-content.xhtml", "EPUB/wasteland-nav.xhtml"]
       end
 
     end
