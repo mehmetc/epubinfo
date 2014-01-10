@@ -1,4 +1,5 @@
-require 'epubinfo/models/table_of_contents/resource'
+require_relative 'table_of_contents/resource'
+require_relative 'table_of_contents/navigation'
 
 module EPUBInfo
   module Models
@@ -12,6 +13,7 @@ module EPUBInfo
         metadata = document.css('metadata')
         self.spine = metadata.xpath('//spine')
         self.manifest = metadata.xpath('//manifest')
+        self.ncx   = Navigation.new(self)
         self.parser = parser
       end
 
@@ -44,6 +46,7 @@ module EPUBInfo
       attr_accessor :manifest
       attr_accessor :parser
       attr_accessor :spine
+      attr_accessor :ncx
 
       private
       def load_toc_file

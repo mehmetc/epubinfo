@@ -30,7 +30,7 @@ class Resource
 
     if reference.is_a?(String)
       reference_data = self.to_a.map do |r|
-        r[:uri] if r[:id].eql?(reference) || r[:uri].eql?(reference)
+        r[:uri] if r[:id].eql?(reference) || r[:uri].eql?(reference) || r[:uri_ref].eql?(reference)
       end.compact
 
       if reference_data && !reference_data.empty?
@@ -62,6 +62,18 @@ class Resource
       spine_resources = @table_of_contents.spine.first.xpath('./itemref').map { |s| s['idref'] }
       self.to_a.select {|r| spine_resources.include?(r[:id])}
     end
+  end
+
+  def ncx
+    @ncx ||=
+        begin
+          @table_of_contents.ncx.nav_map.map do |n|
+            {:uri_ref => n['path'],
+             :text => n['label'],
+             :uri => @table_of_contents.parser.zip_file.entries.map { |p| p.name }.select { |s| s.match(n['path'].gsub(/\#.*$/, '')) }.first
+            }
+          end
+        end
   end
 
   def images
