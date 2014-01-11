@@ -71,6 +71,9 @@ end
 ```
 
 ## Changelog
+**0.5.0** *Januari 11,2014*
+
+* A lot of bugfixing
 
 **0.4.4** *October 24,2013*
 

@@ -68,9 +68,10 @@ class Resource
     @ncx ||=
         begin
           @table_of_contents.ncx.nav_map.map do |n|
-            {:uri_ref => n['path'],
+            path = URI.decode(n['path'])
+            {:uri_ref => path,
              :text => n['label'],
-             :uri => @table_of_contents.parser.zip_file.entries.map { |p| p.name }.select { |s| s.match(n['path'].gsub(/\#.*$/, '')) }.first
+             :uri => @table_of_contents.parser.zip_file.entries.map { |p| p.name }.select { |s| s.match(path.gsub(/\#.*$/, '')) }.first
             }
           end
         end
@@ -117,8 +118,10 @@ class Resource
               end
 
               #TODO:make this an OpenStruct
+
+              uri = @table_of_contents.parser.zip_file.entries.map { |p| p.name }.select { |s| s.match(uri.gsub(/\#.*$/, '')) }.first
               resources << {:id => id,
-                            :uri => @table_of_contents.parser.zip_file.entries.map { |p| p.name }.select { |s| s.match(uri) }.first,
+                            :uri => uri,
                             :uri_ref => uri_ref,
                             :text => label,
                             :type => mime_type,
