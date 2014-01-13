@@ -12,7 +12,8 @@ class Navigation
     ncx_doc.remove_namespaces!
 
     if ncx_doc
-      map = ncx_doc.xpath('//navMap/navPoint').map do |navpoint|
+      #map = ncx_doc.xpath('//navMap/navPoint').map do |navpoint|
+      map = ncx_doc.xpath('//navPoint').map do |navpoint|
         {'label' =>(navpoint % 'navLabel/text').content , 'path' => (navpoint % 'content').attr('src')}
       end
     end
