@@ -97,6 +97,10 @@ class Resource
     @css ||= self.to_a.select {|r| r[:type] =~ /text\/css/}
   end
 
+  def html
+    @html ||= self.to_a.select {|r| r[:type] =~ /application\/xhtml\+xml/}
+  end
+
   def to_a
     @resources ||=
         begin
@@ -110,8 +114,11 @@ class Resource
               uri_ref = ''
               order = ''
 
-              nav_point = @table_of_contents.document.xpath("//navPoint[starts-with(content/@src,'#{uri}')]").first
-              if nav_point
+              #nav_point = @table_of_contents.document.xpath("//navPoint[starts-with(content/@src,'#{uri}')]").first
+              content = @table_of_contents.document.xpath("//content[starts-with(@src,'#{uri}')]")
+              nav_point = content.search('../../navPoint').first
+
+              if nav_point #unless nav_point.nil? || nav_point.empty?
                 label = nav_point.at('navLabel text').content || ''
                 uri_ref = nav_point.at('content').attr('src') || ''
                 order = nav_point.attr('playOrder') || ''

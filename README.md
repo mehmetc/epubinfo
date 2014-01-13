@@ -71,6 +71,10 @@ end
 ```
 
 ## Changelog
+**0.5.1** *Januari 13,2014*
+
+* navPoint can be nested.
+
 **0.5.0** *Januari 11,2014*
 
 * A lot of bugfixing
