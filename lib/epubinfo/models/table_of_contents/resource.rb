@@ -58,11 +58,12 @@ class Resource
 
   def spine
     @spine ||=
-    begin
-      spine_resources = @table_of_contents.spine.first.xpath('./itemref').map { |s| s['idref'] }
-      self.to_a.select {|r| spine_resources.include?(r[:id])}
-    end
+        begin
+          spine_resources = @table_of_contents.spine.first.xpath('./itemref').map { |s| s['idref'] }
+          spine_resources.map{|a| self.to_a.select{|t| t[:id].eql?(a)}}.flatten
+        end
   end
+
 
   def ncx
     @ncx ||=
@@ -114,9 +115,7 @@ class Resource
               uri_ref = ''
               order = ''
 
-              #nav_point = @table_of_contents.document.xpath("//navPoint[starts-with(content/@src,'#{uri}')]").first
-              content = @table_of_contents.document.xpath("//content[starts-with(@src,'#{uri}')]")
-              nav_point = content.search('../../navPoint').first
+              nav_point = @table_of_contents.document.xpath("//navPoint[descendant-or-self::*//content[starts-with(@src, '#{uri}')]]").first
 
               if nav_point #unless nav_point.nil? || nav_point.empty?
                 label = nav_point.at('navLabel text').content || ''
