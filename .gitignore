@@ -52,3 +52,4 @@ pkg
 .idea
 
 Gemfile.lock
+.DS_Store

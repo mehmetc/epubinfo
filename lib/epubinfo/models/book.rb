@@ -70,6 +70,12 @@ module EPUBInfo
       # @return [String]
       attr_accessor :version
 
+
+      #Type
+      #The type element is used to indicate that the given Publication is of a specialized type
+      # @return [Type]
+      attr_accessor :type
+
       # Should never be called directly, go through EPUBInfo.get
       def initialize(parser)
         document = parser.metadata_document
@@ -97,6 +103,7 @@ module EPUBInfo
         self.drm_protected = parser.drm_protected?
         self.cover = EPUBInfo::Models::Cover.new(parser)
         self.table_of_contents = EPUBInfo::Models::TableOfContents.new(parser)
+        self.type = metadata.xpath('.//type').first.content rescue ''
       end
 
 
@@ -117,7 +124,8 @@ module EPUBInfo
           :rights => @rights,
           :drm_protected => @drm_protected,
           :cover => @cover,
-          :table_of_contents => @table_of_contents
+          :table_of_contents => @table_of_contents,
+          :type => @type
         }
       end
     end

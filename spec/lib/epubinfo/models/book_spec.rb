@@ -18,6 +18,7 @@ describe EPUBInfo::Models::Book do
       its(:drm_protected?) { should be_false }
       its(:cover) { should be_kind_of EPUBInfo::Models::Cover }
       its(:table_of_contents) { should be_kind_of EPUBInfo::Models::TableOfContents }
+      its(:type) {should == ''}
       its(:version) { should == '2.0' }
 
       context 'creators' do
@@ -65,6 +66,12 @@ describe EPUBInfo::Models::Book do
           subject.identifiers.each do |identifier|
             identifier.should be_kind_of EPUBInfo::Models::Identifier
           end
+        end
+      end
+
+      context 'type' do
+        it 'count is 1' do
+          subject.type.size.should == 0
         end
       end
     end
@@ -121,6 +128,7 @@ describe EPUBInfo::Models::Book do
           end
         end
       end
+
     end
   end
 
@@ -136,6 +144,7 @@ describe EPUBInfo::Models::Book do
     its(:languages) { should == [] }
     its(:cover) { should be_nil }
     its(:table_of_contents) { should be_nil }
+    its(:type) { should be_nil }
   end
 
   describe '#to_hash' do
@@ -154,6 +163,7 @@ describe EPUBInfo::Models::Book do
       it { should include :rights }
       it { should include :cover }
       it { should include :table_of_contents }
+      it { should include :type }
     end
   end
 

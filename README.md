@@ -71,6 +71,11 @@ end
 ```
 
 ## Changelog
+**0.5.7** *December 11,2014*
+
+* Nokogiri CSS attribute selector bug fix. Thanks to Franck Gille
+* Upgraded to Bundler gem building
+
 **0.5.2** *Januari 13,2014*
 
 * navPoint can be nested.

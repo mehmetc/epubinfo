@@ -19,7 +19,7 @@ module EPUBInfo
     def zip_file
       begin
         @zip_file ||= Zip::File.open(@path)
-      rescue Zip::ZipError => e
+      rescue Zip::Error => e
         raise NotAnEPUBFileError.new(e)
       end
     end

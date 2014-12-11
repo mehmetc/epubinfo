@@ -24,7 +24,7 @@ module EPUBInfo
       # @return [Hash]
       def to_hash
         {
-          :time => @time,
+          :time => @date_str,
           :event => @event
         }
       end
